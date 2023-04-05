@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "912907709452",
+    "project_id": "workwiz-55981",
+    "storage_bucket": "workwiz-55981.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912907709452:android:2b40314860976cf5c1d229",
+        "android_client_info": {
+          "package_name": "com.example.workwiz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "912907709452-46he3sf77aer8rscg55g26o1pa3tj052.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxGgwpKBncpFiWsSPfp7R7kFX0wVsMoLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912907709452-46he3sf77aer8rscg55g26o1pa3tj052.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
