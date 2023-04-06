@@ -22,20 +22,31 @@ class _ChatUserCardState extends State<ChatUserCard> {
   String? receiverImageUrl;
 
   void getReceiverData() async {
-    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('providers')
-        .doc(widget.receiverId)
-        .get();
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot userDoc;
 
-    // ignore: unnecessary_null_comparison
-    if (userDoc == null) {
-      return;
-    } else {
+    // Check if the widget.receiverId exists in the providers collection
+    userDoc = await firestore.collection('providers').doc(widget.receiverId).get();
+    if (userDoc.exists) {
       setState(() {
         receiverName = userDoc.get('name');
         receiverImageUrl = userDoc.get('userImage');
       });
+      return;
     }
+
+    // Check if the widget.receiverId exists in the users collection
+    userDoc = await firestore.collection('users').doc(widget.receiverId).get();
+    if (userDoc.exists) {
+      setState(() {
+        receiverName = userDoc.get('name');
+        receiverImageUrl = userDoc.get('userImage');
+      });
+      return;
+    }
+
+    // Neither the widget.receiverId exists in the providers nor users collection
+    // handle the case here
   }
 
   @override
