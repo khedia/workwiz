@@ -65,7 +65,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
             icon: const Icon(Icons.chat, color: Colors.white,),
             onPressed: (){
               Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const ChatListScreen()));
+                  MaterialPageRoute(builder: (_) => ChatListScreen(
+                    currentUserId: FirebaseAuth.instance.currentUser!.uid,
+                  )));
             },
           ),
         ],

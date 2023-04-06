@@ -6,8 +6,11 @@ import 'package:uuid/uuid.dart';
 import 'package:workwiz/pages/book_now_screen.dart';
 import 'package:workwiz/widgets/review_widget.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 
 import '../Services/global_variables.dart';
+import 'package:workwiz/pages/chat_screen.dart';
 
 class ServiceDetails extends StatefulWidget {
   final String uploadedBy;
@@ -81,6 +84,52 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         _isLoading = false;
       });
     }
+  }
+
+  Widget _contactBy
+      ({
+    required Color color, required Function fct, required IconData icon
+  })
+  {
+    return CircleAvatar(
+      backgroundColor: color,
+      radius: 25,
+      child: CircleAvatar(
+        radius: 23,
+        backgroundColor: Colors.white,
+        child: IconButton(
+          icon: Icon(
+            icon,
+            color: color,
+          ),
+          onPressed: () {
+            fct();
+          },
+        ),
+      ),
+    );
+  }
+
+  void _mailTo() async {
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: 'subject=Write subject here, Please&body=Hello, please write details here',
+    );
+    final url = params.toString();
+    launchUrlString(url);
+  }
+
+  void _callPhoneNumber() async {
+    var url = 'tel://$phoneNumber';
+    launchUrlString(url);
+  }
+
+  void _openChatScreen() async {
+    Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(
+      receiverId: widget.uploadedBy,
+      senderId: FirebaseAuth.instance.currentUser!.uid,
+    )));
   }
 
   @override
@@ -361,6 +410,36 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 fontSize: 16,
                                 color: Colors.grey,
                               ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        dividerWidget(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _contactBy(
+                              color: Colors.green,
+                              fct: () {
+                                _openChatScreen();
+                              },
+                              icon: FontAwesome.chat,
+                            ),
+                            _contactBy(
+                              color: Colors.black,
+                              fct: () {
+                                _mailTo();
+                              },
+                              icon: Icons.mail_outline,
+                            ),
+                            _contactBy(
+                              color: Colors.blue,
+                              fct: () {
+                                _callPhoneNumber();
+                              },
+                              icon: FontAwesome.phone,
                             ),
                           ],
                         ),

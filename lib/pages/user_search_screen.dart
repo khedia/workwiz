@@ -8,7 +8,6 @@ import 'package:workwiz/widgets/service_widget.dart';
 class UserSearchScreen extends StatefulWidget {
   const UserSearchScreen({super.key});
 
-
   @override
   State<UserSearchScreen> createState() => _UserSearchScreenState();
 }
@@ -100,36 +99,34 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                   serviceDescription.contains(searchQuery) ||
                   city.contains(searchQuery);
             }).toList();
-            if(filteredDocs.isNotEmpty == true) {
-              return ListView.builder(
-                  itemCount: filteredDocs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return FutureBuilder(
-                      future: getProviderRating(snapshot.data?.docs[index]['uploadedBy']),
-                      builder: (BuildContext context, AsyncSnapshot<double> ratingSnapshot) {
-                        if (ratingSnapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(child: CircularProgressIndicator());
-                        } else {
-                          final double rating = ratingSnapshot.data ?? 0;
-                          return ServiceWidget(
-                            serviceCategory:
-                            snapshot.data?.docs[index]['serviceCategory'],
-                            serviceTitle: snapshot.data?.docs[index]['serviceTitle'],
-                            serviceDescription:
-                            snapshot.data?.docs[index]['serviceDescription'],
-                            serviceId: snapshot.data?.docs[index]['serviceId'],
-                            uploadedBy: snapshot.data?.docs[index]['uploadedBy'],
-                            userImage: snapshot.data?.docs[index]['userImage'],
-                            name: snapshot.data?.docs[index]['name'],
-                            email: snapshot.data?.docs[index]['email'],
-                            city: snapshot.data?.docs[index]['city'],
-                            phoneNumber: snapshot.data?.docs[index]['phoneNumber'],
-                            rating: rating,
-                          );
-                        }
+            if (filteredDocs.isNotEmpty == true) {
+              return FutureBuilder(
+                future: Future.wait(filteredDocs.map((doc) => getProviderRating(doc['uploadedBy']))),
+                builder: (BuildContext context, AsyncSnapshot<List<double>> ratingSnapshot) {
+                  if (ratingSnapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return ListView.builder(
+                      itemCount: filteredDocs.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final double rating = ratingSnapshot.data?[index] ?? 0;
+                        return ServiceWidget(
+                          serviceCategory: filteredDocs[index]['serviceCategory'],
+                          serviceTitle: filteredDocs[index]['serviceTitle'],
+                          serviceDescription: filteredDocs[index]['serviceDescription'],
+                          serviceId: filteredDocs[index]['serviceId'],
+                          uploadedBy: filteredDocs[index]['uploadedBy'],
+                          userImage: filteredDocs[index]['userImage'],
+                          name: filteredDocs[index]['name'],
+                          email: filteredDocs[index]['email'],
+                          city: filteredDocs[index]['city'],
+                          phoneNumber: filteredDocs[index]['phoneNumber'],
+                          rating: rating,
+                        );
                       },
                     );
                   }
+                },
               );
             } else {
               return const Center(
