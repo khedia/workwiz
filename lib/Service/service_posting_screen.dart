@@ -376,8 +376,7 @@ class _ServicePostingState extends State<ServicePosting> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.cyan, // Set the button's background color
-                          onPrimary: Colors.white, // Set the text color
+                          foregroundColor: Colors.white, backgroundColor: Colors.blue, // Set the text color
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Set the button's padding
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Set the button's border radius
                           elevation: 5, // Set the button's elevation

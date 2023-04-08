@@ -49,16 +49,9 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
           backgroundColor: Colors.transparent,
           bottomNavigationBar: BottomNavigationBarForUser(indexNum: 0),
           appBar: AppBar(
-            title: const Text('User Home Screen'),
+            title: const Text('Home Screen'),
             centerTitle: true,
             backgroundColor: Colors.blue,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.filter_list_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
             actions: [
               IconButton(
                 icon: const Icon(

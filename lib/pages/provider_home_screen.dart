@@ -53,13 +53,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomNavigationBarForProvider(indexNum: 0),
       appBar: AppBar(
-        title: const Text('Provider Home Screen'),
+        title: const Text('Home Screen'),
         centerTitle: true,
         backgroundColor: Colors.blue,
-        leading: IconButton(
-          icon: const Icon(Icons.filter_list_rounded, color: Colors.white,),
-          onPressed: (){},
-        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.chat, color: Colors.white,),

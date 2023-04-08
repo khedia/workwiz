@@ -208,6 +208,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        centerTitle: true,
       ),
       bottomNavigationBar: BottomNavigationBarForUser(indexNum: 3),
       body: Center(
@@ -244,9 +245,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         const SizedBox(height: 15),
                         const Divider(
                           thickness: 1,
-                          color: Colors.black,
+                          color: Colors.blueGrey,
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 10),
                         const Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Text(
@@ -257,7 +258,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: userInfo(icon: Icons.email, content: email),
@@ -269,7 +270,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         const SizedBox(height: 15),
                         const Divider(
                           thickness: 1,
-                          color: Colors.black,
+                          color: Colors.blueGrey,
                         ),
                         const SizedBox(height: 35),
                         _isSameUser
@@ -301,7 +302,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ],
 
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         !_isSameUser
                             ? Container()
                             : Center(

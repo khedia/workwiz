@@ -45,7 +45,7 @@ class _ProviderMyBookingsScreenState extends State<ProviderMyBookingsScreen> {
         stream: FirebaseFirestore.instance
             .collection('bookings')
             .where('providerId', isEqualTo: _userId)
-            .orderBy('bookingDate', descending: true)
+            .orderBy('bookedAt', descending: true)
             .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -62,8 +62,8 @@ class _ProviderMyBookingsScreenState extends State<ProviderMyBookingsScreen> {
                     final bookingData = snapshot.data!.docs[index].data();
                     final jobStatus = bookingData['bookingState'] ?? '';
                     return Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      elevation: 2,
+                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
                       child: ListTile(
                         title: Text(
                           bookingData['serviceTitle'],
