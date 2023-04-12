@@ -55,13 +55,27 @@ class _UserLoginState extends State<UserLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+            title: Text('Login as a User'),
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            leading: IconButton(
+              onPressed: () {
+                Navigator.canPop(context) ? Navigator.pop(context) : null;
+              },
+              icon: const Icon(Icons.arrow_back),
+              style: ButtonStyle(
+                iconColor: MaterialStateProperty.all<Color?>(Colors.cyan),
+              ),
+            )
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 70),
+                const SizedBox(height: 25),
                 Image.asset(
                   'assets/images/login_img.png',
                   height: MediaQuery

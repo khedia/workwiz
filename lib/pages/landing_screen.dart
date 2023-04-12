@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
-
-import 'user_login_screen.dart';
-import 'user_signup_screen.dart';
-import 'provider_signup_screen.dart';
-import 'provider_login_screen.dart';
+import 'package:workwiz/pages/provider_login_screen.dart';
+import 'package:workwiz/pages/provider_signup_screen.dart';
+import 'package:workwiz/pages/user_login_screen.dart';
+import 'package:workwiz/pages/user_signup_screen.dart';
 
 class LandingScreen extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
-  const LandingScreen({Key? key});
+  const LandingScreen({Key? key}) : super(key: key);
 
   void _navigateTo(BuildContext context, Widget screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => screen));
   }
 
   Widget _buildButton(
       String text, Color color, VoidCallback onPressed) {
-    return MaterialButton(
-      onPressed: onPressed,
-      color: color,
-      elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(13),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-          ],
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          padding: const EdgeInsets.symmetric(vertical: 17),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -43,6 +38,9 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double logoSize = screenHeight * 0.18;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -56,53 +54,131 @@ class LandingScreen extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(
+                width: logoSize,
+                height: logoSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              const SizedBox(height: 40),
               const Text(
                 'WorkWiz',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 65,
                   color: Colors.white,
+                  fontSize: 58,
+                  fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 8),
               const Text(
                 'Your go-to home services app',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
                   color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
                 ),
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(
-                height: 65,
-              ),
+              const SizedBox(height: 60),
               _buildButton(
-                  'Register as a Service Provider', Colors.cyan, () {
-                _navigateTo(context, const ProviderSignUp());
-              }),
-              const SizedBox(
-                height: 20,
+                'I\'m a Service Provider',
+                Colors.cyan,
+                    () {
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        AlertDialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          title: const Center(
+                            child: Text(
+                              'Service Provider Options',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.cyan,
+                              ),
+                            ),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildButton(
+                                'Register',
+                                Colors.cyan,
+                                    () =>
+                                    _navigateTo(
+                                      context,
+                                      const ProviderSignUp(),
+                                    ),
+                              ),
+                              _buildButton(
+                                'Log in',
+                                Colors.cyan,
+                                    () =>
+                                    _navigateTo(
+                                      context,
+                                      const ProviderLogin(),
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                  );
+                },
               ),
-              _buildButton('Register as a User', Colors.cyan, () {
-                _navigateTo(context, const UserSignUp());
-              }),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 5,),
               _buildButton(
-                  'Login as a Service Provider', Colors.cyan, () {
-                _navigateTo(context, const ProviderLogin());
-              }),
-              const SizedBox(
-                height: 20,
+                'I\'m a User',
+                Colors.cyan,
+                    () {
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        AlertDialog(
+                          title: const Center(
+                            child: Text(
+                              'User Options',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.cyan,
+                              ),
+                            ),
+                          ),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              _buildButton(
+                                'Register',
+                                Colors.cyan,
+                                    () => _navigateTo(context, const UserSignUp()),
+                              ),
+                              _buildButton(
+                                'Log in',
+                                Colors.cyan,
+                                    () => _navigateTo(context, const UserLogin()),
+                              ),
+                            ],
+                          ),
+                        )
+                  );
+                },
               ),
-              _buildButton('Login as a User', Colors.cyan, () {
-                _navigateTo(context, UserLogin());
-              }),
             ],
           ),
         ),
@@ -110,3 +186,4 @@ class LandingScreen extends StatelessWidget {
     );
   }
 }
+

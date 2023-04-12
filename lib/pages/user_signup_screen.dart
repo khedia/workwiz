@@ -187,10 +187,24 @@ class _UserSignUpState extends State<UserSignUp> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          title: Text('Register as a User'),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.canPop(context) ? Navigator.pop(context) : null;
+            },
+            icon: const Icon(Icons.arrow_back),
+            style: ButtonStyle(
+              iconColor: MaterialStateProperty.all<Color?>(Colors.cyan),
+            ),
+          )
+      ),
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 45),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: ListView(
             children: [
               Form(
