@@ -129,8 +129,11 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
                   _showSortOptionsDialog(size: size);
                 },
                 style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   backgroundColor: Colors.white30,
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                   elevation: 3,
                   shadowColor: Colors.grey.withOpacity(0.5),
                   textStyle: const TextStyle(
@@ -147,8 +150,11 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
                 onPressed: () {
                 },
                 style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   backgroundColor: Colors.white30,
-                  padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
                   elevation: 3,
                   shadowColor: Colors.grey.withOpacity(0.5),
                   textStyle: const TextStyle(
