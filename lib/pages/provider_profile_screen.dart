@@ -350,7 +350,7 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                       width: size.width * 0.30,
                       height: size.width * 0.30,
                       decoration: BoxDecoration(
-                        color: Colors.red,
+                        color: Colors.grey,
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 8,

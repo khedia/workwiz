@@ -8,8 +8,8 @@ class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
 
   void _navigateTo(BuildContext context, Widget screen) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => screen));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen))
+        .then((value) => Navigator.pop(context)); // close the dialog box after navigating
   }
 
   Widget _buildButton(
