@@ -16,6 +16,8 @@ class UserCategoryScreen extends StatefulWidget {
 
 class _UserCategoryScreenState extends State<UserCategoryScreen> {
 
+  String selectedSortOption = SortOptions.sortOptionsList[0];
+
   Future<double> getProviderRating(String providerId) async {
     double rating = 0;
     try {
@@ -55,6 +57,7 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
                 return InkWell(
                   onTap: () {
                     setState(() {
+                      selectedSortOption = SortOptions.sortOptionsList[index];
                     });
                     Navigator.pop(context);
                   },
@@ -175,7 +178,7 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
           stream: FirebaseFirestore.instance
               .collection('services')
               .where('serviceCategory', isEqualTo: widget.categoryName)
-              .orderBy('createdAt', descending: false)
+              .orderBy(selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt')
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

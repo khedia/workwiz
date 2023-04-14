@@ -6,7 +6,7 @@ import 'package:workwiz/widgets/service_widget.dart';
 import 'package:workwiz/Persistent/sort_options.dart';
 
 class UserSearchScreen extends StatefulWidget {
-  const UserSearchScreen({super.key});
+  const UserSearchScreen({Key? key}) : super(key: key);
 
   @override
   State<UserSearchScreen> createState() => _UserSearchScreenState();
@@ -15,6 +15,8 @@ class UserSearchScreen extends StatefulWidget {
 class _UserSearchScreenState extends State<UserSearchScreen> {
   final TextEditingController _searchQueryController = TextEditingController();
   String searchQuery = '';
+
+  String selectedSortOption = SortOptions.sortOptionsList[0];
 
   Widget _buildSearchField() {
     return TextField(
@@ -93,7 +95,9 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
               itemBuilder: (ctx, index) {
                 return InkWell(
                   onTap: () {
-                    setState(() {});
+                    setState(() {
+                      selectedSortOption = SortOptions.sortOptionsList[index];
+                    });
                     Navigator.pop(context);
                   },
                   child: Padding(
@@ -140,7 +144,14 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
+    int sortIndex = SortOptions.sortOptionsList.indexOf(selectedSortOption);
+    if (sortIndex == -1) {
+      sortIndex = 0; // default to the first sort option
+    }
+    String sortByField = sortIndex == 1 ? 'servicePrice' : 'createdAt';
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarForUser(indexNum: 1),
       appBar: AppBar(
@@ -168,7 +179,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                     ),
                     backgroundColor: Colors.white30,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
                     elevation: 3,
                     shadowColor: Colors.grey.withOpacity(0.5),
                     textStyle: const TextStyle(
@@ -189,7 +200,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                     ),
                     backgroundColor: Colors.white30,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
                     elevation: 3,
                     shadowColor: Colors.grey.withOpacity(0.5),
                     textStyle: const TextStyle(
@@ -210,7 +221,9 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
             Expanded(
               child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream:
-                    FirebaseFirestore.instance.collection('services').snapshots(),
+                    FirebaseFirestore.instance.collection('services')
+                        .orderBy(selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt')
+                        .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
