@@ -194,13 +194,22 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       if (key.contains(FirebaseAuth.instance.currentUser!.uid)) {
                                         final String senderId = FirebaseAuth.instance.currentUser!.uid;
                                         final String receiverId = getReceiverId(key, senderId);
+                                        final String chatId = getChatId(senderId, receiverId);
+                                        final Map<dynamic, dynamic> chat = value as Map<dynamic, dynamic>;
+                                        final List<Map<dynamic, dynamic>> messages = chat.values.toList().cast<Map<dynamic, dynamic>>();
+                                        messages.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
+                                        final String lastMessage = messages.isNotEmpty ? messages.first['message'] : '';
+                                        final int timestamp = messages.isNotEmpty ? messages.first['timestamp'] : 0;
                                         chatUserCards.add(
                                           ChatUserCard(
                                             senderId: senderId,
                                             receiverId: receiverId,
+                                            lastMessage: lastMessage,
+                                            timestamp: timestamp,
                                           ),
                                         );
                                       }
+                                      chatUserCards.sort((a, b) => (b as ChatUserCard).timestamp.compareTo((a as ChatUserCard).timestamp));
                                     }
                                   });
                                 }

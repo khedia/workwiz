@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import 'package:workwiz/pages/chat_screen.dart';
 
 class ChatUserCard extends StatefulWidget {
   final String senderId;
   final String receiverId;
+  final String lastMessage;
+  final int timestamp;
 
   const ChatUserCard({Key? key,
     required this.senderId,
     required this.receiverId,
+    required this.lastMessage,
+    required this.timestamp
   }) : super(key: key);
 
   @override
@@ -93,9 +98,13 @@ class _ChatUserCardState extends State<ChatUserCard> {
           title: Text(
             receiverName == null ? '' : receiverName!,
           ),
-          subtitle: const Text('Last user message', maxLines: 1),
-          trailing: const Text(
-            '12:00 PM',
+          subtitle: Text(
+              widget.lastMessage,
+              maxLines: 1
+          ),
+          trailing: Text(
+            DateFormat('dd MMM kk:mm')
+                .format(DateTime.fromMillisecondsSinceEpoch(widget.timestamp)),
             style: TextStyle(color: Colors.black54),
           ),
         ),

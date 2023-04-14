@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:workwiz/pages/user_home_screen.dart';
 
 import 'package:workwiz/widgets/user_bottom_nav_bar.dart';
 import 'package:workwiz/widgets/service_widget.dart';
@@ -145,15 +144,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarForUser(indexNum: 1),
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const UserHomeScreen()));
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
+        leading: Icon(Icons.search_outlined),
         title: _buildSearchField(),
         actions: _buildActions(),
       ),

@@ -61,16 +61,25 @@ class _ChatListScreenState extends State<ChatListScreen> {
             if (conversations != null) {
               conversations.forEach((key, value) {
                 if (value != null) {
-                    if (key.contains(widget.currentUserId)) {
-                      final String senderId = widget.currentUserId;
-                      final String receiverId = getReceiverId(key, senderId);
-                      chatUserCards.add(
-                        ChatUserCard(
-                          senderId: senderId,
-                          receiverId: receiverId,
-                        ),
-                      );
-                    }
+                  if (key.contains(widget.currentUserId)) {
+                    final String senderId = widget.currentUserId;
+                    final String receiverId = getReceiverId(key, senderId);
+                    final String chatId = getChatId(senderId, receiverId);
+                    final Map<dynamic, dynamic> chat = value as Map<dynamic, dynamic>;
+                    final List<Map<dynamic, dynamic>> messages = chat.values.toList().cast<Map<dynamic, dynamic>>();
+                    messages.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
+                    final String lastMessage = messages.isNotEmpty ? messages.first['message'] : '';
+                    final int timestamp = messages.isNotEmpty ? messages.first['timestamp'] : 0;
+                    chatUserCards.add(
+                      ChatUserCard(
+                        senderId: senderId,
+                        receiverId: receiverId,
+                        lastMessage: lastMessage,
+                        timestamp: timestamp,
+                      ),
+                    );
+                  }
+                  chatUserCards.sort((a, b) => (b as ChatUserCard).timestamp.compareTo((a as ChatUserCard).timestamp));
                 }
               });
             }

@@ -22,6 +22,7 @@ class Message extends StatelessWidget {
     final isSentByCurrentUser =
         senderId == FirebaseAuth.instance.currentUser?.uid;
     final messageBox = Container(
+      margin: EdgeInsets.only(bottom: 2),
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 14.0),
       decoration: BoxDecoration(
         gradient: LinearGradient(
