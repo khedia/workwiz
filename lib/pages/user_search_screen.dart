@@ -147,11 +147,6 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
     Size size = MediaQuery
         .of(context)
         .size;
-    int sortIndex = SortOptions.sortOptionsList.indexOf(selectedSortOption);
-    if (sortIndex == -1) {
-      sortIndex = 0; // default to the first sort option
-    }
-    String sortByField = sortIndex == 1 ? 'servicePrice' : 'createdAt';
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarForUser(indexNum: 1),
       appBar: AppBar(
@@ -220,10 +215,12 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream:
-                    FirebaseFirestore.instance.collection('services')
-                        .orderBy(selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt')
-                        .snapshots(),
+                stream: FirebaseFirestore.instance.collection('services')
+                    .orderBy(selectedSortOption == SortOptions.sortOptionsList[0] ?
+                'avgRating' :
+                selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt',
+                    descending: selectedSortOption == SortOptions.sortOptionsList[0])
+                    .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(

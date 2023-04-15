@@ -178,7 +178,10 @@ class _UserCategoryScreenState extends State<UserCategoryScreen> {
           stream: FirebaseFirestore.instance
               .collection('services')
               .where('serviceCategory', isEqualTo: widget.categoryName)
-              .orderBy(selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt')
+              .orderBy(selectedSortOption == SortOptions.sortOptionsList[0] ?
+          'avgRating' :
+          selectedSortOption == SortOptions.sortOptionsList[1] ? 'servicePrice' : 'createdAt',
+              descending: selectedSortOption == SortOptions.sortOptionsList[0])
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {

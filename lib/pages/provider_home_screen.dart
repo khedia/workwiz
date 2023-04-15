@@ -62,6 +62,23 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         .catchError((error) => GlobalMethod.showErrorDialog(error: error.toString(), ctx: context));
   }
 
+  void updateServiceRating(double avgRating) {
+    FirebaseFirestore.instance
+        .collection('services')
+        .where('name', isEqualTo: name)
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((doc) {
+        FirebaseFirestore.instance
+            .collection('services')
+            .doc(doc.id)
+            .update({'avgRating': avgRating})
+            .catchError((error) => GlobalMethod.showErrorDialog(error: error.toString(), ctx: context));
+      });
+    });
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -105,6 +122,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
               double averageRating = ratings.isNotEmpty ? ratingSum / ratings.length.toDouble() : 0.0;
 
               updateProviderRating(averageRating);
+              updateServiceRating(averageRating);
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -194,7 +212,6 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       if (key.contains(FirebaseAuth.instance.currentUser!.uid)) {
                                         final String senderId = FirebaseAuth.instance.currentUser!.uid;
                                         final String receiverId = getReceiverId(key, senderId);
-                                        final String chatId = getChatId(senderId, receiverId);
                                         final Map<dynamic, dynamic> chat = value as Map<dynamic, dynamic>;
                                         final List<Map<dynamic, dynamic>> messages = chat.values.toList().cast<Map<dynamic, dynamic>>();
                                         messages.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
@@ -209,7 +226,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                           ),
                                         );
                                       }
-                                      chatUserCards.sort((a, b) => (b as ChatUserCard).timestamp.compareTo((a as ChatUserCard).timestamp));
+                                      chatUserCards.sort((a, b) => (b).timestamp.compareTo((a).timestamp));
                                     }
                                   });
                                 }
