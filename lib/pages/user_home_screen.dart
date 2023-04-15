@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:workwiz/pages/chat_list_screen.dart';
 import 'package:workwiz/widgets/user_bottom_nav_bar.dart';
@@ -15,7 +16,13 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
-  Future<String> _cityFuture = Future<String>.value("123");
+  Future<String> _cityFuture = Future<String>.value("Ranchi");
+
+  List<String> imageList = [
+    'assets/images/carousel1.jpg',
+    'assets/images/carousel2.jpg',
+    'assets/images/carousel3.jpg',
+  ];
 
   @override
   void initState() {
@@ -124,37 +131,31 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 25),
                       Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: const Offset(0, 3),
+                        child: CarouselSlider(
+                            options: CarouselOptions(
+                              height: 110.0,
+                              enlargeCenterPage: true,
+                              autoPlay: true,
+                              aspectRatio: 16/10,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              enableInfiniteScroll: true,
+                              autoPlayAnimationDuration: Duration(milliseconds: 800),
+                              viewportFraction: 0.8,
                             ),
-                          ],
-                        ),
-                        child: const TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search for services',
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.black45,
-                            ),
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                              color: Colors.black45,
-                              fontFamily: 'Montserrat',
-                            ),
-                          ),
-                        ),
+                            items: imageList.map((item) => Container(
+                              child: Center(
+                                child: Image.asset(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  height: 200,
+                                ),
+                              ),
+                            )).toList(),
+                          )
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 25),
                       Expanded(
                         child: Container(
                           color: Colors.white,
