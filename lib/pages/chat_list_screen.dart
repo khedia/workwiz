@@ -64,7 +64,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
                   if (key.contains(widget.currentUserId)) {
                     final String senderId = widget.currentUserId;
                     final String receiverId = getReceiverId(key, senderId);
-                    final String chatId = getChatId(senderId, receiverId);
                     final Map<dynamic, dynamic> chat = value as Map<dynamic, dynamic>;
                     final List<Map<dynamic, dynamic>> messages = chat.values.toList().cast<Map<dynamic, dynamic>>();
                     messages.sort((a, b) => b['timestamp'].compareTo(a['timestamp']));
@@ -79,7 +78,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       ),
                     );
                   }
-                  chatUserCards.sort((a, b) => (b as ChatUserCard).timestamp.compareTo((a as ChatUserCard).timestamp));
+                  chatUserCards.sort((a, b) => (b).timestamp.compareTo((a).timestamp));
                 }
               });
             }

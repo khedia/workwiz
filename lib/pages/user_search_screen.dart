@@ -73,80 +73,8 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
     return rating;
   }
 
-  void _showSortOptionsDialog({required Size size}) {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.grey[900],
-          title: const Text(
-            'Sort according to',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-          content: SizedBox(
-            width: size.width * 0.9,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: SortOptions.sortOptionsList.length,
-              itemBuilder: (ctx, index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedSortOption = SortOptions.sortOptionsList[index];
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.arrow_right_alt_outlined,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          SortOptions.sortOptionsList[index],
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarForUser(indexNum: 1),
       appBar: AppBar(
@@ -166,15 +94,19 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    _showSortOptionsDialog(size: size);
+                    setState(() {
+                      selectedSortOption = SortOptions.sortOptionsList[0];
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    backgroundColor: Colors.white30,
+                    backgroundColor: selectedSortOption == SortOptions.sortOptionsList[0]
+                        ? Colors.black38
+                        : Colors.white30,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
                     elevation: 3,
                     shadowColor: Colors.grey.withOpacity(0.5),
                     textStyle: const TextStyle(
@@ -182,20 +114,30 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: const Text(
-                    'Sort',
-                    style: TextStyle(color: Colors.black54),
+                  child: Text(
+                    'Rating',
+                    style: TextStyle(
+                      color: selectedSortOption == SortOptions.sortOptionsList[0]
+                          ? Colors.white
+                          : Colors.black54,
+                    ),
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      selectedSortOption = SortOptions.sortOptionsList[1];
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                    backgroundColor: Colors.white30,
+                    backgroundColor: selectedSortOption == SortOptions.sortOptionsList[1]
+                        ? Colors.black38
+                        : Colors.white30,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 35, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
                     elevation: 3,
                     shadowColor: Colors.grey.withOpacity(0.5),
                     textStyle: const TextStyle(
@@ -203,9 +145,44 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: const Text(
-                    'Filter',
-                    style: TextStyle(color: Colors.black54),
+                  child: Text(
+                    'Price',
+                    style: TextStyle(
+                      color: selectedSortOption == SortOptions.sortOptionsList[1]
+                          ? Colors.white
+                          : Colors.black54,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedSortOption = SortOptions.sortOptionsList[2];
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: selectedSortOption == SortOptions.sortOptionsList[2]
+                        ? Colors.black38
+                        : Colors.white30,
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                    elevation: 3,
+                    shadowColor: Colors.grey.withOpacity(0.5),
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  child: Text(
+                    'Oldest First',
+                    style: TextStyle(
+                      color: selectedSortOption == SortOptions.sortOptionsList[2]
+                          ? Colors.white
+                          : Colors.black54,
+                    ),
                   ),
                 ),
               ],
