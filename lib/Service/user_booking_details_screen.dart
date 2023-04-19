@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:workwiz/Service/service_details.dart';
 import 'package:workwiz/Services/global_methods.dart';
 import 'package:workwiz/pages/rating_screen.dart';
 
@@ -93,6 +92,7 @@ class _UserBookingDetailsScreenState
                   final servicePrice = bookingData['servicePrice'] ?? '';
                   final providerImage = bookingData['providerImage'] ?? '';
                   final reviewAdded = bookingData['reviewAdded'] ?? '';
+                  final otp = bookingData['otp'] ?? '';
 
                   return SingleChildScrollView(
                     child: Card(
@@ -236,6 +236,38 @@ class _UserBookingDetailsScreenState
                                 ),
                               ],
                             ),
+                            if(otp != '' && jobStatus == 'Booking Accepted')
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 10,),
+                                    Center(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "OTP to start the service: ",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.cyan,
+                                            ),
+                                          ),
+                                          SizedBox(width: 2,),
+                                          Text(
+                                            otp ?? "1",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.cyan,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             const SizedBox(height: 36),
                             if (jobStatus == 'Booking Accepted' || jobStatus == 'Confirmation Pending')
                               Padding(

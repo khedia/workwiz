@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workwiz/Services/global_methods.dart';
-import 'package:workwiz/pages/book_now_screen.dart';
-import 'package:workwiz/widgets/review_widget.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../Services/global_variables.dart';
+import 'package:workwiz/Services/global_methods.dart';
 
 class RatingScreen extends StatefulWidget {
   final String uploadedBy;
@@ -38,7 +36,7 @@ class _RatingScreenState extends State<RatingScreen> {
   String? email = '';
   String? phoneNumber = '';
   String? servicePrice;
-  double _rating = 0;
+  double _rating = 1;
 
   bool _isLoading = false;
 
@@ -341,7 +339,7 @@ class _RatingScreenState extends State<RatingScreen> {
                                   fontSize: 18,
                                 );
                                 _reviewController.clear();
-                                _rating = 0;
+                                _rating = 1;
                                 updateReviewStatus();
                               },
                               color: Colors.cyan,

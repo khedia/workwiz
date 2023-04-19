@@ -2,6 +2,8 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:math';
 
 import 'package:workwiz/Services/global_methods.dart';
 
@@ -20,6 +22,7 @@ class _ProviderBookingDetailsScreenState
     extends State<ProviderBookingDetailsScreen> {
   late Stream<DocumentSnapshot<Map<String, dynamic>>> _bookingStream;
   late FirebaseFirestore _firestore;
+  final otpController = TextEditingController();
 
   @override
   void initState() {
@@ -37,6 +40,12 @@ class _ProviderBookingDetailsScreenState
         .catchError((error) => GlobalMethod.showErrorDialog(error: error.toString(), ctx: context));
   }
 
+  void updateOtp(String bookingId, String otp) {
+    FirebaseFirestore.instance.collection('bookings')
+        .doc(bookingId)
+        .update({'otp': otp})
+        .catchError((error) => GlobalMethod.showErrorDialog(error: error.toString(), ctx: context));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +99,8 @@ class _ProviderBookingDetailsScreenState
                   final userNumber = bookingData['userNumber'] ?? '';
                   final userImage = bookingData['userImage'] ?? '';
                   final servicePrice = bookingData['servicePrice'] ?? '';
+
+                  String generatedOtp = (Random().nextInt(999999 - 100000) + 100000).toString();
 
                   return SingleChildScrollView(
                     child: Card(
@@ -283,8 +294,53 @@ class _ProviderBookingDetailsScreenState
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {
-                                      updateJobStatus(widget.bookingId, 'Service in Progress');
+                                    onPressed: () async {
+                                      updateOtp(widget.bookingId, generatedOtp);
+                                      final otp = await showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return StatefulBuilder(
+                                            builder: (BuildContext context, StateSetter setState) {
+                                              return AlertDialog(
+                                                title: const Text('Enter OTP'),
+                                                content: TextField(
+                                                  controller: otpController,
+                                                  keyboardType: TextInputType.number,
+                                                  maxLength: 6,
+                                                  decoration: const InputDecoration(hintText: 'Enter OTP'),
+                                                ),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: const Text('Cancel'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: const Text('Submit'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                      print(generatedOtp);
+                                      if (otpController.text == generatedOtp) {
+                                        updateJobStatus(widget.bookingId, 'Service in Progress');
+                                        otpController.clear();
+                                      } else {
+                                        await Fluttertoast.showToast(
+                                          msg: 'Invalid OTP',
+                                          toastLength: Toast.LENGTH_LONG,
+                                          backgroundColor: Colors.grey,
+                                          fontSize: 18,
+                                        );
+                                        otpController.clear();
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
