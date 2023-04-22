@@ -8,6 +8,8 @@ import 'package:workwiz/pages/chat_list_screen.dart';
 import 'package:workwiz/widgets/user_bottom_nav_bar.dart';
 import 'package:workwiz/pages/user_category_screen.dart';
 
+import '../Services/messaging.dart';
+
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({Key? key}) : super(key: key);
 
@@ -28,6 +30,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
   void initState() {
     super.initState();
     _cityFuture = getCurrentCity();
+    setupNotificationListener(context);
   }
 
   Future<String> getCurrentCity() async {
